@@ -20,6 +20,9 @@ The purpose is to show the difference in resulting roots when using different ha
    - The final Merkle root for SHA256
    - The final Merkle root for Keccak256
 
+## Gas Fee Estimation:
+   -https://hackmd.io/@kingsman/ByV3vRCHWl
+
 ## Requirements
 
 - Node.js (v14 or higher recommended)
