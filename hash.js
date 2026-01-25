@@ -1,60 +1,25 @@
 import { ethers } from "ethers";
 
-const transactions = [
-  "Chibex sent 100USD",
-  "Emma sent 150USD",
-  "David sent 150USD",
-  "Joy sent 150USD",
-  "Chief sent 150USD",
-  "Mama sent 150USD",
+
+
+
+
+const personalDataStrings = [
+    "Person 1: Name=Emmanuel Adebayo, DOB=1995-07-20, ID=NG123456789, Address=12 Ikeja Road, Lagos, Nigeria",
+    "Person 2: Name=Aisha Mohammed, DOB=1998-03-15, ID=NG987654321, Address=45 Victoria Island, Lagos, Nigeria",
+    "Person 3: Name=Chinedu Okonkwo, DOB=1992-11-30, ID=NG456789123, Address=78 Abuja Street, Abuja, Nigeria",
+    "Person 4: Name=Fatima Yusuf, DOB=2000-09-10, ID=NG321654987, Address=23 Port Harcourt Road, Rivers, Nigeria",
 ];
 
-// Hash leaves (same for both SHA256 and Keccak256 versions)
-const hashLeaves = (txns, hashFn) =>
-  txns.map((t) => hashFn(ethers.toUtf8Bytes(t)));
+console.log("Keccak-256 hashes of personal data strings:");
 
-const buildMerkleRoot = (hashes, hashFn) => {
-  if (hashes.length === 1) return hashes[0];
-
-  const nextLevel = [];
-  for (let i = 0; i < hashes.length; i += 2) {
-    if (i + 1 < hashes.length) {
-      const combined = ethers.concat([hashes[i], hashes[i + 1]]);
-      nextLevel.push(hashFn(combined));
-    } else {
-      nextLevel.push(hashes[i]); // promote unpaired
-    }
-  }
-  console.log("Next level:", nextLevel);
-  return buildMerkleRoot(nextLevel, hashFn);
-};
-
-// Usage
-const leavesSha = hashLeaves(transactions, ethers.sha256);
-console.log("Leaves (SHA256):", leavesSha);
-const rootSha1 = buildMerkleRoot(leavesSha, ethers.sha256);
-console.log(`Merkle Root (SHA256): ${rootSha1}`);
-
-const leavesKec = hashLeaves(transactions, ethers.keccak256);
-const rootKec1 = buildMerkleRoot(leavesKec, ethers.keccak256);
-console.log(`Merkle Root (Keccak256): ${rootKec1}`);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+personalDataStrings.forEach((data, index) => {
+    const blockHash = ethers.keccak256(ethers.toUtf8Bytes(data));
+    
+    console.log(`Person ${index + 1} Data: ${data}`);
+    console.log(`Block Hash for ${index + 1}: ${blockHash}`);
+    console.log("---");
+});
 
 
 
